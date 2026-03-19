@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import com.order_service.order.Client.InventoryClient;
 import com.order_service.order.Dto.OrderRequest;
 import com.order_service.order.Model.Order;
 import com.order_service.order.Repo.OrderRepo;
@@ -18,10 +19,14 @@ public class OrderService {
     
     private final OrderRepo orderRepo;
     private final Logger logger = LoggerFactory.getLogger(getClass());
+    private final InventoryClient inventoryClient;
 
     public void placeRequest(OrderRequest request){
 
-        Order order = new Order();
+        var isInStock = inventoryClient.inStock(request.skuCode(), request.quantity());
+
+        if(isInStock){
+            Order order = new Order();
         order.setOrderNumber(UUID.randomUUID().toString());
         order.setPrice(request.price());
         order.setSkuCode(request.skuCode());
@@ -30,5 +35,9 @@ public class OrderService {
         logger.info("Order placed successfully");
 
         orderRepo.save(order);
+
+        }else{
+            throw  new RuntimeException("Product Unavailabe");
+        }
     }
 }

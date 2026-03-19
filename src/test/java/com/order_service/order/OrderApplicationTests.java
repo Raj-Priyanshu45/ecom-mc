@@ -1,17 +1,21 @@
 package com.order_service.order;
 
-import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
+import org.springframework.cloud.contract.wiremock.AutoConfigureWireMock;
+
 import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.junit.jupiter.Testcontainers;
+
+import com.order_service.order.Stubs.InventoryClientStubs;
 
 import io.restassured.RestAssured;
 
 @Testcontainers
+@AutoConfigureWireMock(port=0)
 @SpringBootTest(webEnvironment=SpringBootTest.WebEnvironment.RANDOM_PORT)
 class OrderApplicationTests {
 
@@ -32,11 +36,14 @@ class OrderApplicationTests {
 
 		String reqeustBody = """
 				{
-				"skuCode": "SKU-54321",
+				"skuCode": "MACBOOK-AIR-M2-13",
 				"price": 499.99,
 				"quantity": 2
 				}
 				""";
+
+		InventoryClientStubs.stubInventoryCall("MACBOOK-AIR-M2-13", 2);
+
 
 		RestAssured.given()
 				.contentType("application/json")
@@ -48,5 +55,4 @@ class OrderApplicationTests {
 				// .body("id" , Matchers.notNullValue())
 				// .body("orderNumber" , Matchers.notNullValue());
 	}
-
 }
