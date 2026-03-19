@@ -1,0 +1,6 @@
+INSERT INTO t_inventory (sku_code, quantity) VALUES
+('IPHONE-15-BLACK-128', 15),
+('SAMSUNG-S23-WHITE-256', 8),
+('MACBOOK-AIR-M2-13', 5),
+('BOAT-AIRDOPES-141', 100),
+('ONEPLUS-NORD-CE3', 20);
