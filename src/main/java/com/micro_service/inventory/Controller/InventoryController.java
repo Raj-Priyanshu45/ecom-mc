@@ -22,10 +22,6 @@ public class InventoryController {
 
         boolean flag = inventoryService.inInStock(skuCode , quantity);
 
-        if(flag){
-            return ResponseEntity.status(200).body("Product Available");
-        }
-
-        return ResponseEntity.status(200).body("Product Unavailable");
+        return ResponseEntity.status(200).body(flag);
     }
 }
