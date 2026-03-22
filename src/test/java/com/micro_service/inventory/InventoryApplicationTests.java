@@ -33,10 +33,10 @@ class InventoryApplicationTests {
             .queryParam("skuCode", "MACBOOK-AIR-M2-13")
             .queryParam("quantity", 2)
             .when()
-            .post("/api/inventory/stock")
+            .get("/api/inventory")
             .then()
             .statusCode(200)
-            .body(org.hamcrest.Matchers.equalTo("Product Available"));
+            .body(org.hamcrest.Matchers.equalTo("true"));
 
 	}
 
