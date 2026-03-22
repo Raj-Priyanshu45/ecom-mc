@@ -44,7 +44,6 @@ class OrderApplicationTests {
 
 		InventoryClientStubs.stubInventoryCall("MACBOOK-AIR-M2-13", 2);
 
-
 		RestAssured.given()
 				.contentType("application/json")
 				.body(reqeustBody)
